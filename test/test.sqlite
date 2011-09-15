@@ -1,0 +1,9 @@
+CREATE TABLE annotations (
+	annotation_id integer primary key,
+	classid integer not null,
+	author varchar(64) not null,
+	url varchar(512) not null,
+	annotation text not null,
+	created text,
+	updated text
+);
