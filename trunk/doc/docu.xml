@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<article version="5.0" xml:lang="en">
+  <articleinfo>
+    <subjectset>
+      <subject>
+        <subjectterm>RESTfooly</subjectterm>
+      </subject>
+      <subject>
+        <subjectterm>PHP</subjectterm>
+      </subject>
+      <subject>
+        <subjectterm>REST</subjectterm>
+      </subject>
+    </subjectset>
+    <title>RESTfooly</title>
+    <author>
+      <firstname>P. Andreas</firstname>
+      <surname>Möller</surname>
+    </author>
+    <pubdate>14.09.2011</pubdate>
+    <copyright>
+      <year>2011</year>
+      <holder>Peter Andreas Möller</holder>
+    </copyright>
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+      </revision>
+    </revhistory>
+    <cover>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/logo.png"/>
+        </imageobject>
+      </mediaobject>
+    </cover>
+  </articleinfo>
+  <abstract>RESTfooly is a simple HTTP handler written in PHP. It writes, read,
+  modify or delete custom objects using REST bindings. Use RESTfooly to
+  prototype or implement web services. By default custom objects are stored in
+  a SQLite database. Customize RESTfooly to store objects in any manner, even
+  in noSQL databases. RESTfooly serves several types of access management,
+  including a clever session based access mechanism.
+  If user based authentication is needed - it can be be done as well. RESTfooly
+  is published under the GNU Public License V3.</abstract>
+  <section>
+    <title>Installation</title>
+    <para>RESTfooly needs a HTTP Server and PHP. To install RESTfooly do:</para>
+    <programlisting language="bash">$ wget http://RESTfooly.org/downloads/RESTfooly-0.1.tar.gz
+$ tar xzvf RESTfooly-0.1.tar.gz</programlisting>
+    <para>If using Apache HTTP Server mod_rewrite must be enabled. To configure
+    the Apache HTTP Server, when PHP is used as module, place the following to
+    the end of your httpd.conf or inside a virtual host configuration
+    anywhere.</para>
+    <programlisting language="bash">Alias /resources/ "C:/Users/pa/Documents/www/RESTfooly/"
+&lt;Directory "C:/Users/pa/Documents/www/RESTfooly"&gt;
+  AllowOverride All
+  AddType application/x-httpd-php .php
+&lt;/Directory&gt;</programlisting>
+    <para>Keep in mind the rewrite rule in <path>.htaccess</path>-file within
+    RESTfoolys base dir. The rule maps all requests to the handler.</para>
+    <programlisting language="bash">RewriteEngine on 
+RewriteRule ^.*$  handler.php [L]
+</programlisting>
+  </section>
+  <section>
+    <title>Test</title>
+    <para>RESTfooly includes unit tests. The presence of <olink targetdoc="http://www.simpletest.org">simpletest</olink> is recommended. To download simpletest and execute the tests do:</para>
+    <programlisting language="bash">$ cd test
+$ wget http://sourceforge.net/projects/simpletest/files/simpletest/simpletest_1.1/simpletest_1.1alpha3.tar.gz/download
+$ tar xzvf simpletest_1.1alpha3.tar.gz 
+$ php test.php</programlisting>
+    <para>Note: The unit tests try to reach RESTfooly at http://127.0.0.1:80/resources.</para>
+  </section>
+  <section>
+    <title>Configuration</title>
+    <para>RESTfooly is configured by <path>inc/RESTfooly.inc</path>. The documentation
+    of the configuration paramters is given in this file. The following shows the
+    default settings (server defaults).</para>
+    <programlisting language="php">&lt;?php
+/**
+ * connect to database (path to sqlite database)
+ * @var string
+ */
+$cfg['DB_CONNECT_STRING'] = 'include/RESTfooly.sqlite';
+/**
+ * remove this absolute(!) path from requested path within HTTP header
+ * @var string
+ */
+$cfg['HTTP_BASE_URI'] = '/resources';
+/**
+ * inlcude error object into response body or not
+ * @var boolean
+ */
+$cfg['ERROR_VERBOSE'] = true;
+/**
+ * type of access control for any client
+ *
+ * * 0 create, read, update or delete any object (None)
+ * * 1 read any object (Read Only)
+ * * 2 read or create any object (Read Write)
+ * * 3 read or create any object update or delete those created in this session (Session Based)
+ * * 4 custom based access control (Custom)
+ *
+ * NOTE: The Session Based access control is more appropriate than the Read Write setting.
+ * It allows clients to correct their own input until session end. 
+ *
+ * @var integer
+ */
+$cfg['ACCESS_CONTROL'] = 0;
+/**
+ * maximum number of rows within a result set
+ * @var integer
+ */
+$cfg['DB_MAX_ROWS'] = 500;
+/**
+ * maximum length of http param name and value
+ * @var integer
+ */
+$cfg['DB_MAX_LENGTH'] = 2056;
+?&gt;
+</programlisting>
+  </section>
+  <section>
+    <title>Dataschema</title>
+    <para>RESTfooly stores custom objects within a custom table
+    within a SQLite database. Therefore a data schema must be created. The
+    following example shows the given bindings for SQL data schemas.</para>
+    <programlisting language="sql">-- table name is plural!! (objects)
+CREATE TABLE annotations (
+  -- primary key is singular, suffix "_id" and integer!! (object_id)
+  annotation_id integer primary key,
+  classid integer not null,
+  author varchar(64) not null,
+  url varchar(512) not null,
+  annotation text not null,
+  -- optional automatically set on creation!
+  created text,
+  -- optional automatically set on update!
+  updated text
+);</programlisting>
+    <para>To load the data schema into a sqlite database do:</para>
+    <programlisting language="bash">$ cd bin
+
+$ php dbLoad.php -s schema.sqlite -d ../include/RESTfooly.sqlite</programlisting>
+    <para>To create a RESTfooly-conform SQL data schema for pumkin anyway do:</para>
+    <programlisting language="bash">$ php dbLoad.php -p annotation
+CREATE TABLE annotations (
+  annotation_id integer primary key,
+  created text,
+  updated text
+);</programlisting>
+  </section>
+  <section>
+    <title>Interface</title>
+    <para>RESTfooly covers some aspects of RESTful web services. There is a
+    configurable base URI, a given Internet Media Type, JSON, and a set of
+    operations using HTTP-Methods. RESTfoolys protocol may not hypermedia
+    driven, as <olink targetdoc="http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven">suspected</olink>, but it is useful in my opinion.
+
+   The following interface description is given by HTTP-requests and responses. The JSON strings are formatted to increase the readability.</para>
+    <itemizedlist>
+      <listitem>
+        <para>Use HTTP GET-method to query members (objects) of a collection (with a given url)</para>
+        <programlisting language="HTTPD">GET /resources/annotations?url=http://www.example.org/article2 HTTP/1.1^M
+Host: 127.0.0.1
+Connection: Close
+
+HTTP/1.1 200 OK
+Content-Length: 215
+Connection: close
+Content-Type: application/json; charset="utf8"
+
+{
+  "status":"ok",
+  "data":
+    [
+      {
+        "annotation_id":"2",
+        "classid":"1",
+        "author":"user",
+        "url":"http:\/\/www.example.org\/article2",
+        "annotation":"this is an odanary comment to this article",
+        "created":"2011-09-08",
+        "updated":null
+      }
+    ]
+}</programlisting>
+      </listitem>
+      <listitem>
+        <para>Use HTTP GET-method to query a member of a collection with annotation_id = 1</para>
+        <programlisting language="HTTPD">GET /resources/annotations/1 HTTP/1.1
+Host: 127.0.0.1
+Connection: Close
+
+HTTP/1.1 200 OK
+Content-Length: 221
+Connection: close
+Content-Type: application/json; charset="utf8"
+
+{
+  "status":"ok",
+  "data":
+    [
+      {
+        "annotation_id":"1",
+        "classid":"2",
+        "author":"you",
+        "url":"http:\/\/www.example.com\/article",
+        "annotation":"this is no odanary comment to this article",
+        "created":"2011-09-08",
+        "updated":"2011-09-08"
+      }
+    ]
+}</programlisting>
+      </listitem>
+      <listitem>
+        <para>Use HTTP POST-method to create a new member</para>
+        <programlisting language="HTTPD">POST /resources/annotations HTTP/1.1
+Host: 127.0.0.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 110
+Connection: Close
+
+classid=1&amp;author=user&amp;url=http://www.example.org/article&amp;annotation=this is an odanary comment to this article
+
+HTTP/1.1 201 Created
+Content-Length: 42
+Connection: close
+Content-Type: application/json; charset="utf8"
+
+{
+  "status":"ok",
+  "data":
+    {
+      "annotation_id":3
+    }
+}</programlisting>
+      </listitem>
+      <listitem>
+        <para>Use HTTP PUT-method to update the member with annotation_id = 1</para>
+        <programlisting language="HTTPD">PUT /resources/annotations/1 HTTP/1.1
+Host: 127.0.0.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 109
+Connection: Close
+
+classid=2&amp;author=you&amp;url=http://www.example.com/article&amp;annotation=this is no odanary comment to this article
+
+HTTP/1.1 200 OK
+Content-Length: 46
+Connection: close
+Content-Type: application/json; charset="utf8"
+
+{
+  "status":"ok",
+  "data":
+    {
+      "annotation_id":"'1'"
+    }
+}</programlisting>
+      </listitem>
+      <listitem>
+        <para>Use HTTP DELETE-method to  delete member with annotation_id = 2</para>
+        <programlisting language="HTTPD">DELETE /resources/annotations/2 HTTP/1.1
+Host: 127.0.0.1
+Connection: Close
+
+HTTP/1.1 200 OK
+Content-Length: 44s
+Connection: close
+Content-Type: application/json; charset="utf8"
+
+{
+  "status":"ok",
+  "data":
+    {
+      "annotation_id":"2"
+    }
+}</programlisting>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>Tutorial</title>
+    <para>Setting ACCESS_CONTROL = 4 enables Custom Access Control. With this
+    setting a User Authentication can be implemented. </para>
+    <programlisting language="php">&lt;?php
+
+require_once("RESTfooly.php");
+
+class rfAuthen extends RESTfooly {
+
+  /**
+   *  overwrite custom access control method
+   */
+  protected function httpAccessControlCustom() {
+    // start session
+    session_start();
+    // user is loged in
+    if (isset($_SESSION["login"])) {
+
+      return;
+    }
+    // user tries login
+    else if (isset($_SERVER["PHP_AUTH_USER"]) &amp;&amp; isset($_SERVER["PHP_AUTH_PW"]) &amp;&amp; $this-&gt;dbLoginValid(["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
+      $_SESSION["login"] = true;
+		
+      return;
+    }
+
+    // authentication required
+    header('WWW-Authenticate: Basic realm="RESTfooly"');
+    header("HTTP/1.0 401 Unauthorized");
+    exit(1);
+  }
+  
+  /**
+   * check for login
+   * @param string $login
+   * @param string $passwd
+   */
+  protected function dbLoginValid($login, $passwd) {
+    
+    return isset($this-&gt;dbGetOne("SELECT login FROM accounts WHERE login=%s AND passwd=%s", $this-&gt;dbEscape($login), $this-&gt;dbEscape(md5($passwd)))))?true:false;
+  }
+}?&gt;</programlisting>
+  </section>
+  <section>
+    <title>Roadmap</title>
+    <para>RESTfooly shall include a pageing mechanism. 
+
+    The media type of responses shall be extended to more than JSON.
+    HTML-representation shall be generated on the fly by XSLT.
+    RESTfooly shall become a RESTful webservice. The default database shall
+    become sqlite3. RESTfooly may extensible for JSON-Requests.</para>
+  </section>
+</article>
