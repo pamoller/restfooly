@@ -1,0 +1,343 @@
+/* reset defaults */
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 1em;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1em;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* start style */
+a:visited, a {
+  color:#00f;
+}
+
+abbr {
+  font-weight:bold;
+  font-size:0.8em;
+}
+
+audio {
+  width:100%;
+}
+
+body {
+  font-family: Biolinum, serif;
+  font-size: 21px;
+  background-color:#aaf;  
+  line-height:1.1em;
+  margin:0;
+  padding:0;
+}
+
+code {
+  font-family:monospace;
+  font-size:0.8em;
+}
+
+em {
+  font-style:italic;
+}
+
+figcaption {
+  font-size:0.9em;
+  margin:0 5%;
+}
+
+figure {
+  clear:both;
+  text-align:center;
+}
+  
+figure img {
+  margin:0.5em;
+}
+
+footer {
+  clear:both;
+  color:#7a7a7a;
+  font-size:0.7em;
+  margin-top:3em;
+  text-align:center;    
+}
+
+h1, h2, h3, h4, h5, h6, strong, dt {
+  line-height:1em;
+  font-weight:bold;
+}
+
+h1 {
+  font-size:2em;
+}
+
+h2 {
+  font-size:1.5em;
+}
+
+h2, h3 {
+  margin-top:1em;
+}
+
+img {
+  max-width:100%;
+  margin:0 0.5em 0.5em 0.5em;  
+}
+
+ol, ul {
+  margin:1em 0 1em;
+  padding-left:1.5em;
+}
+
+ol {
+  list-style: decimal outside;
+}
+
+p {
+  margin:1em 0 1em;
+}
+
+p:first-letter {
+  font-size:1.2em
+}
+
+pre {
+  background-color:#eee;
+  border-radius:0.25em;
+  margin:1em 0 1em;
+  overflow:auto;
+  padding:0.5em;
+  white-space:pre-wrap;
+}
+
+time {
+  color:#7a7a7a;
+  font-size:0.8em;
+}
+
+ul {
+  list-style:disc outside;
+}
+
+.author span {
+  font-family:Biolinum-Caps;
+}
+
+.author:first-letter {
+  font-size:1em;
+}
+
+a.download {
+  background-color:#008000;
+  border-radius: 0.2em;
+  color:#fff;
+  display:block;
+  font-size:2em;
+  font-weight:bold;
+  padding:0.8em;
+  text-align:center;
+}
+
+.explained {
+ text-decoration:underline;
+ cursor:pointer
+}
+
+.literal {
+  background-color:#ffe;
+  font-family:Biolinum;
+  font-size:0.9em;
+  line-height:1.33em;
+}
+
+.sidebar {
+  float:right;
+  clear:right;
+  font-size:0.8em;
+  line-height:1.2em;
+  padding-left:1.5em;
+  width:40%;
+}
+
+.sidebar img, .sidebar p  {
+  margin:0;
+  padding:0;
+}
+
+
+.sidebar audio {
+  display:block;
+}
+
+#abstract {
+  font-style:italic;  
+}
+
+#chint {
+  background-color:#ffe;
+  border-top-right-radius:0.4em;
+  border-bottom-right-radius:0.4em;
+  color:#7a7a7a;
+  /*font-family:Biolinum-Caps;*/
+  font-size:0.8em;
+  font-variant:small-caps;
+  font-weight:bold;
+  line-height:0.7em;
+  padding:0.5em 0.5em;
+  position:fixed;
+  text-align:center;
+  /*float:right;
+  margin-left:61.1em;
+  width:0.5em;*/
+  left:92%; /*use calc(50%-4em)*/
+  top:20%;
+  z-index:3;
+}
+
+#contents {
+  background-color:#ffe;
+  border-radius:0.2em;
+  display:none;
+  font-size:0.9em;
+  font-weight:bold;
+  margin-left:40em;
+  position:fixed;
+  /*top:9%;
+  width:14.7em;*/
+  right:8%;
+  width:15em;
+}
+
+#contents .author {
+  font-size:0.8em;
+  margin:0.7em 0;
+  text-align:center;
+}
+
+#contents h2 {
+  padding:0 0.5em;
+  font-size: 1.1em;
+}
+
+
+#cbox:hover #chint, #cbox:hover #contents {
+  background-color:#aaf;
+  box-shadow: 0.2em 0.2em 0.2em #888;
+  opacity:0.92;
+}
+
+#cbox:hover #contents a, #cbox:hover #chint, #cbox:hover #contents {
+  color:#fff;
+}
+
+#cbox:hover #chint {
+  font-weight:bold;
+  z-index:3;
+}
+
+#cbox:hover #contents {
+  z-index:2;
+  display:block;
+}
+
+#heading {
+  margin-top:0.65em;
+  z-index:24;
+}
+
+#heading hgroup h1 {
+  margin-top:0;
+}
+
+#navigation {
+  text-align:right;
+  margin-bottom:1em;
+  padding:0 0 0.5em 1em;
+}
+
+#navigation ul {
+  margin:0;  
+  padding:0;
+  text-align:right;
+}
+
+#navigation ul li, li.nav {
+  display:inline;  
+  padding-right:0.2em;
+}
+
+#navigation ul li a, a.nav, footer a {
+  color:#00f; 
+  font-family:Biolinum-Caps;
+  font-variant:small-caps;
+  font-size: 0.9em;
+}         
+
+#page {
+  background-color:#ffe;
+  border-radius: 0.25em;
+  clear:both;
+  margin:3% 8%;
+  padding:1em 1.5em;
+  /*margin:3% auto;
+  width:48em;
+  max-width:99%;*/
+  margin:3% 8%;
+  min-height:80%;
+}
+
+#vita {
+  font-size:0.9em;  
+  font-style:italic;
+}
+
+/* font-variant has no effect in font-selection!*/
+@font-face {
+  font-family:Biolinum;
+  src:local('Linux Biolinum O'), local('LinBiolinumO'), url(../fonts/LinBiolinum_R.woff);
+} 
+
+@font-face {
+  font-family:Biolinum;
+  font-weight:bold;
+  src:local('Linux Biolinum O Bold'), local('LinBiolinumOB'), url(../fonts/LinBiolinum_RB.woff);
+}
+
+@font-face {
+  font-family:Biolinum;
+  font-style:italic;	
+  src:local('Linux Biolinum O Italic'), local('LinBiolinumOI'), url(../fonts/LinBiolinum_RI.woff);
+}
+
+@font-face {
+  font-family:Biolinum-Caps;
+  src:local('Linux Biolinum Capitals O'), local('LinBiolinumCapitalsO'), url(../fonts/LinBiolinum_aS.woff);
+}
