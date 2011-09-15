@@ -30,7 +30,7 @@
     <cover>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="images/logo.png"/>
+          <imagedata fileref="images/restfooy.png"/>
         </imageobject>
       </mediaobject>
       <para><olink role="download" targetdoc="https://code.google.com/p/restfooly/downloads/list">Download latest</olink></para>
