@@ -14,7 +14,7 @@
     </subjectset>
     <title>RESTfooly</title>
     <author>
-      <firstname>P. Andreas</firstname>
+      <firstname>Peter Andreas</firstname>
       <surname>Möller</surname>
     </author>
     <pubdate>14.09.2011</pubdate>
@@ -30,7 +30,7 @@
     <cover>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="images/restfooy.png"/>
+          <imagedata fileref="images/restfooly.png"/>
         </imageobject>
       </mediaobject>
       <para><olink role="download" targetdoc="https://code.google.com/p/restfooly/downloads/list">Download latest</olink></para>
