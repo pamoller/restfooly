@@ -36,30 +36,26 @@
       <para><olink role="download" targetdoc="https://code.google.com/p/restfooly/downloads/list">Download latest</olink></para>
     </cover>
   </articleinfo>
-  <abstract>RESTfooly is a simple HTTP handler written in PHP. It writes, read,
-  modify or delete custom objects using REST bindings. Use RESTfooly to
-  prototype or implement web services. By default custom objects are stored in
-  a SQLite database. Customize RESTfooly to store objects in any manner, even
-  in noSQL databases. RESTfooly serves several types of access management,
-  including a clever session based access mechanism.
-  If user based authentication is needed - it can be be done as well. RESTfooly
-  is published under the GNU Public License V3.</abstract>
+  <abstract><para>RESTfooly is a simple HTTP handler written in PHP. It writes, read,
+modify or delete custom objects using REST bindings. Use RESTfooly to
+prototype or implement web services. By default custom objects are stored in
+a SQLite database. Customize RESTfooly to store objects in any manner, even
+in noSQL databases. RESTfooly serves several types of access management,
+including a clever session based access mechanism.
+If user based authentication is needed - it can be be done as well. RESTfooly
+is published under the GNU Public License V3.</para></abstract>
   <section>
     <title>Installation</title>
     <para>RESTfooly needs a HTTP Server and PHP. To install RESTfooly do:</para>
     <programlisting language="bash">$ wget http://RESTfooly.org/downloads/RESTfooly-0.1.tar.gz
 $ tar xzvf RESTfooly-0.1.tar.gz</programlisting>
-    <para>If using Apache HTTP Server mod_rewrite must be enabled. To configure
-    the Apache HTTP Server, when PHP is used as module, place the following to
-    the end of your httpd.conf or inside a virtual host configuration
-    anywhere.</para>
+    <para>If using Apache HTTP Server mod_rewrite must be enabled. To configure the Apache HTTP Server, when PHP is used as module, place the following to the end of your httpd.conf or inside a virtual host configuration anywhere.</para>
     <programlisting language="bash">Alias /resources/ "C:/Users/pa/Documents/www/RESTfooly/"
 &lt;Directory "C:/Users/pa/Documents/www/RESTfooly"&gt;
   AllowOverride All
   AddType application/x-httpd-php .php
 &lt;/Directory&gt;</programlisting>
-    <para>Keep in mind the rewrite rule in <path>.htaccess</path>-file within
-    RESTfoolys base dir. The rule maps all requests to the handler.</para>
+    <para>Keep in mind the rewrite rule in <path>.htaccess</path>-file within RESTfoolys base dir. The rule maps all requests to the handler.</para>
     <programlisting language="bash">RewriteEngine on 
 RewriteRule ^.*$  handler.php [L]
 </programlisting>
@@ -75,9 +71,7 @@ $ php test.php</programlisting>
   </section>
   <section>
     <title>Configuration</title>
-    <para>RESTfooly is configured by <path>inc/RESTfooly.inc</path>. The documentation
-    of the configuration paramters is given in this file. The following shows the
-    default settings (server defaults).</para>
+    <para>RESTfooly is configured by <path>inc/RESTfooly.inc</path>. The documentation of the configuration paramters is given in this file. The following shows the default settings (server defaults).</para>
     <programlisting language="php">&lt;?php
 /**
  * connect to database (path to sqlite database)
@@ -124,9 +118,7 @@ $cfg['DB_MAX_LENGTH'] = 2056;
   </section>
   <section>
     <title>Dataschema</title>
-    <para>RESTfooly stores custom objects within a custom table
-    within a SQLite database. Therefore a data schema must be created. The
-    following example shows the given bindings for SQL data schemas.</para>
+    <para>RESTfooly stores custom objects within a custom table within a SQLite database. Therefore a data schema must be created. The following example shows the given bindings for SQL data schemas.</para>
     <programlisting language="sql">-- table name is plural!! (objects)
 CREATE TABLE annotations (
   -- primary key is singular, suffix "_id" and integer!! (object_id)
@@ -142,7 +134,6 @@ CREATE TABLE annotations (
 );</programlisting>
     <para>To load the data schema into a sqlite database do:</para>
     <programlisting language="bash">$ cd bin
-
 $ php dbLoad.php -s schema.sqlite -d ../include/RESTfooly.sqlite</programlisting>
     <para>To create a RESTfooly-conform SQL data schema for pumkin anyway do:</para>
     <programlisting language="bash">$ php dbLoad.php -p annotation
@@ -154,12 +145,7 @@ CREATE TABLE annotations (
   </section>
   <section>
     <title>Interface</title>
-    <para>RESTfooly covers some aspects of RESTful web services. There is a
-    configurable base URI, a given Internet Media Type, JSON, and a set of
-    operations using HTTP-Methods. RESTfoolys protocol may not hypermedia
-    driven, as <olink targetdoc="http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven">suspected</olink>, but it is useful in my opinion.
-
-   The following interface description is given by HTTP-requests and responses. The JSON strings are formatted to increase the readability.</para>
+    <para>RESTfooly covers some aspects of RESTful web services. There is a configurable base URI, a given Internet Media Type, JSON, and a set of operations using HTTP-Methods. RESTfoolys protocol may not hypermedia driven, as <olink targetdoc="http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven">suspected</olink>, but it is useful in my opinion. The following interface description is given by HTTP-requests and responses. The JSON strings are formatted to increase the readability.</para>
     <itemizedlist>
       <listitem>
         <para>Use HTTP GET-method to query members (objects) of a collection (with a given url)</para>
@@ -284,8 +270,7 @@ Content-Type: application/json; charset="utf8"
   </section>
   <section>
     <title>Tutorial</title>
-    <para>Setting ACCESS_CONTROL = 4 enables Custom Access Control. With this
-    setting a User Authentication can be implemented. </para>
+    <para>Setting ACCESS_CONTROL = 4 enables Custom Access Control. With this setting a User Authentication can be implemented. </para>
     <programlisting language="php">&lt;?php
 
 require_once("RESTfooly.php");
@@ -329,11 +314,6 @@ class rfAuthen extends RESTfooly {
   </section>
   <section>
     <title>Roadmap</title>
-    <para>RESTfooly shall include a pageing mechanism. 
-
-    The media type of responses shall be extended to more than JSON.
-    HTML-representation shall be generated on the fly by XSLT.
-    RESTfooly shall become a RESTful webservice. The default database shall
-    become sqlite3. RESTfooly may extensible for JSON-Requests.</para>
+    <para>RESTfooly shall include a pageing mechanism. The media type of responses shall be extended to more than JSON. HTML-representation shall be generated on the fly by XSLT. RESTfooly shall become a RESTful webservice. The default database shall become sqlite3. RESTfooly may extensible for JSON-Requests.</para>
   </section>
 </article>
