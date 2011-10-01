@@ -2,7 +2,7 @@
 
 RESTfooly is a simple HTTP handler written in PHP. It writes, read,
 modify or delete custom objects using REST bindings. Use RESTfooly to
-prototype or implement web services. By default custom objects are stored in
+prototype or implement Web services. By default custom objects are stored in
 a SQLite database. Customize RESTfooly to store objects in any manner, even
 in noSQL databases. RESTfooly serves several types of access management,
 including a clever session based access mechanism.
@@ -23,8 +23,8 @@ If using Apache HTTP Server mod_rewrite must be enabled. To configure the Apache
 
 
 {{{
-Alias /resources/ "C:/Users/pa/Documents/www/RESTfooly/"
-<Directory "C:/Users/pa/Documents/www/RESTfooly">
+Alias /resources/ "C:/Users/pa/Documents/www/restfooly/"
+<Directory "C:/Users/pa/Documents/www/restfooly">
   AllowOverride All
   AddType application/x-httpd-php .php
 </Directory>

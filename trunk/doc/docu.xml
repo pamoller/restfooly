@@ -38,7 +38,7 @@
   </articleinfo>
   <abstract><para>RESTfooly is a simple HTTP handler written in PHP. It writes, read,
 modify or delete custom objects using REST bindings. Use RESTfooly to
-prototype or implement web services. By default custom objects are stored in
+prototype or implement Web services. By default custom objects are stored in
 a SQLite database. Customize RESTfooly to store objects in any manner, even
 in noSQL databases. RESTfooly serves several types of access management,
 including a clever session based access mechanism.
@@ -50,8 +50,8 @@ is published under the GNU Public License V3.</para></abstract>
     <programlisting language="bash">$ wget https://restfooly.googlecode.com/files/restfooly-0.1.tar.gz
 $ tar xzvf restfooly-0.1.tar.gz</programlisting>
     <para>If using Apache HTTP Server mod_rewrite must be enabled. To configure the Apache HTTP Server, when PHP is used as module, place the following to the end of your httpd.conf or inside a virtual host configuration anywhere.</para>
-    <programlisting language="bash">Alias /resources/ "C:/Users/pa/Documents/www/RESTfooly/"
-&lt;Directory "C:/Users/pa/Documents/www/RESTfooly"&gt;
+    <programlisting language="bash">Alias /resources/ "C:/Users/pa/Documents/www/restfooly/"
+&lt;Directory "C:/Users/pa/Documents/www/restfooly"&gt;
   AllowOverride All
   AddType application/x-httpd-php .php
 &lt;/Directory&gt;</programlisting>
